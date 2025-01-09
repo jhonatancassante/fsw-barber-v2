@@ -2,11 +2,15 @@
   "name": "fsw-barber",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
+  },
+  "prisma": {
+    "seed": "node ./prisma/seed.js"
   },
   "dependencies": {
     "@prisma/client": "^6.2.1",
