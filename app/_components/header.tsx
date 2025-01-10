@@ -11,7 +11,7 @@ const Header = () => {
                     src="/logo.png"
                     alt="logo FSW Barber"
                     width={120}
-                    height={18}
+                    height={20}
                 />
                 <Button size="icon" variant="outline">
                     <MenuIcon />
