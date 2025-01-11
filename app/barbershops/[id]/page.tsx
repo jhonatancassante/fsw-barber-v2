@@ -1,4 +1,5 @@
 import FormatedTitle from "@/app/_components/formated-title";
+import PhoneItem from "@/app/_components/phone-item";
 import ServiceItem from "@/app/_components/service-item";
 import { Button } from "@/app/_components/ui/button";
 import { db } from "@/app/_lib/prisma";
@@ -8,8 +9,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 const BarbershopPage = async ({ params }: { params: { id: string } }) => {
+    const { id } = await params;
+
     const barbershop = await db.barbershop.findUnique({
-        where: { id: params.id },
+        where: { id: id },
         include: { services: true },
     });
 
@@ -69,13 +72,20 @@ const BarbershopPage = async ({ params }: { params: { id: string } }) => {
             </div>
 
             {/* SERVIÇOS */}
-            <div className="p-5">
+            <div className="border-b border-solid p-5">
                 <FormatedTitle title="Serviços" className="mt-0" />
                 <div className="grid grid-cols-1 gap-2">
                     {barbershop.services.map((service) => (
                         <ServiceItem key={service.id} service={service} />
                     ))}
                 </div>
+            </div>
+
+            {/* CONTATO */}
+            <div className="space-y-3 p-5">
+                {barbershop.phones.map((phone) => (
+                    <PhoneItem key={phone} phone={phone} />
+                ))}
             </div>
         </div>
     );
