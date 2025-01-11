@@ -1,6 +1,7 @@
 import FormatedTitle from "@/app/_components/formated-title";
 import PhoneItem from "@/app/_components/phone-item";
 import ServiceItem from "@/app/_components/service-item";
+import SidebarSheet from "@/app/_components/sidebar-sheet";
 import { Button } from "@/app/_components/ui/button";
 import { db } from "@/app/_lib/prisma";
 import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from "lucide-react";
@@ -42,13 +43,16 @@ const BarbershopPage = async ({ params }: { params: { id: string } }) => {
                         <ChevronLeftIcon />
                     </Link>
                 </Button>
-                <Button
-                    size="icon"
-                    className="absolute right-4 top-4"
-                    variant="secondary"
-                >
-                    <MenuIcon />
-                </Button>
+
+                <SidebarSheet>
+                    <Button
+                        size="icon"
+                        className="absolute right-4 top-4"
+                        variant="secondary"
+                    >
+                        <MenuIcon />
+                    </Button>
+                </SidebarSheet>
             </div>
 
             {/* NOME E ENDEREÇO */}
