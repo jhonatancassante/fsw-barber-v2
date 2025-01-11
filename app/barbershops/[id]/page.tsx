@@ -1,4 +1,5 @@
 import FormatedTitle from "@/app/_components/formated-title";
+import ServiceItem from "@/app/_components/service-item";
 import { Button } from "@/app/_components/ui/button";
 import { db } from "@/app/_lib/prisma";
 import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from "lucide-react";
@@ -9,6 +10,7 @@ import { notFound } from "next/navigation";
 const BarbershopPage = async ({ params }: { params: { id: string } }) => {
     const barbershop = await db.barbershop.findUnique({
         where: { id: params.id },
+        include: { services: true },
     });
 
     if (!barbershop) {
@@ -61,9 +63,19 @@ const BarbershopPage = async ({ params }: { params: { id: string } }) => {
             </div>
 
             {/* DESCRIÇÃO */}
-            <div className="space-y-2space-y-2 border-solid p-5">
-                <FormatedTitle title="Sobre nós" className="mb-0 mt-0" />
+            <div className="border-b border-solid p-5">
+                <FormatedTitle title="Sobre nós" className="mt-0" />
                 <p className="text-sm">{barbershop.description}</p>
+            </div>
+
+            {/* SERVIÇOS */}
+            <div className="p-5">
+                <FormatedTitle title="Serviços" className="mt-0" />
+                <div className="grid grid-cols-1 gap-2">
+                    {barbershop.services.map((service) => (
+                        <ServiceItem key={service.id} service={service} />
+                    ))}
+                </div>
             </div>
         </div>
     );
