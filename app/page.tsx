@@ -3,11 +3,11 @@ import { Button } from "./_components/ui/button";
 import Image from "next/image";
 import { db } from "./_lib/prisma";
 import BarbershopItem from "./_components/barbershop-item";
-import greeting from "./_utils/greeting";
 import { quickSearchOptions } from "./_constants/quick-search";
 import BookingItem from "./_components/booking-item";
 import FormatedTitle from "./_components/formated-title";
 import Search from "./_components/search";
+import GreetingItem from "./_components/greeting-item";
 
 const Home = async () => {
     const barbershop = await db.barbershop.findMany({});
@@ -22,10 +22,7 @@ const Home = async () => {
             <Header />
             <div className="p-5">
                 {/* SAUDAÇÃO */}
-                <h2 className="text-xl font-bold">
-                    {`${greeting()}, Jhonatan!`}
-                </h2>
-                <p>Quinta-feira, 9 de janeiro de 2025.</p>
+                <GreetingItem />
 
                 {/* PESQUISA */}
                 <div className="mt-6">
