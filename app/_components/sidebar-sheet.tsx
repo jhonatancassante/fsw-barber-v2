@@ -1,9 +1,12 @@
+"use client";
+
 import { Button } from "./ui/button";
-import { CalendarIcon, HomeIcon, LogOutIcon } from "lucide-react";
+import { CalendarIcon, HomeIcon, LogInIcon, LogOutIcon } from "lucide-react";
 import {
     Sheet,
     SheetClose,
     SheetContent,
+    SheetDescription,
     SheetHeader,
     SheetTitle,
     SheetTrigger,
@@ -13,32 +16,93 @@ import { Avatar, AvatarImage } from "./ui/avatar";
 import Link from "next/link";
 import Image from "next/image";
 import { ReactNode } from "react";
+import {
+    Dialog,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+    DialogContent,
+} from "./ui/dialog";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 interface SidebarSheetProps {
     children: ReactNode;
 }
 
 const SidebarSheet = ({ children }: SidebarSheetProps) => {
+    const { data } = useSession();
+    const handleLoginWithGoogleClick = () => signIn("google");
+    const handleSingOutClick = () => signOut();
+
     return (
         <Sheet>
             <SheetTrigger asChild>{children}</SheetTrigger>
             <SheetContent className="overflow-y-auto">
                 <SheetHeader>
                     <SheetTitle className="text-left">Menu</SheetTitle>
+                    <SheetDescription className="text-left">
+                        Acesse rapidamente as principais funcionalidades
+                    </SheetDescription>
                 </SheetHeader>
 
-                <div className="flex flex-row items-center gap-3 border-b border-solid py-5">
-                    <Avatar>
-                        <AvatarImage src="/avatar-placeholder.jpg" />
-                    </Avatar>
-                    <div>
-                        <p className="text-sm font-semibold">
-                            Jhonatan Cassante
-                        </p>
-                        <p className="text-xs text-gray-400">
-                            jhonatan.cassante@live.com
-                        </p>
-                    </div>
+                <div className="border-b border-solid py-5">
+                    {data?.user ? (
+                        <div className="flex flex-row items-center gap-3">
+                            <Avatar>
+                                <AvatarImage
+                                    src={
+                                        data?.user?.image ??
+                                        "/avatar-placeholder.jpg"
+                                    }
+                                />
+                            </Avatar>
+                            <div>
+                                <p className="text-sm font-semibold">
+                                    {data?.user?.name}
+                                </p>
+                                <p className="text-xs text-gray-400">
+                                    {data?.user?.email}
+                                </p>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="flex flex-row items-center justify-between gap-3">
+                            <h2 className="font-bold">Olá, faça seu login!</h2>
+                            <Dialog>
+                                <DialogTrigger asChild>
+                                    <Button size={"icon"}>
+                                        <LogInIcon />
+                                    </Button>
+                                </DialogTrigger>
+                                <DialogContent className="w-[90%] rounded-lg">
+                                    <DialogHeader>
+                                        <DialogTitle>
+                                            Faça seu login
+                                        </DialogTitle>
+                                        <DialogDescription>
+                                            Conecte-se usando sua conta do
+                                            Google
+                                        </DialogDescription>
+                                    </DialogHeader>
+
+                                    <Button
+                                        className="gap-1 font-bold"
+                                        variant={"outline"}
+                                        onClick={handleLoginWithGoogleClick}
+                                    >
+                                        <Image
+                                            src={"/google.svg"}
+                                            height={16}
+                                            width={16}
+                                            alt="logo google"
+                                        />
+                                        Google
+                                    </Button>
+                                </DialogContent>
+                            </Dialog>
+                        </div>
+                    )}
                 </div>
 
                 <div className="flex flex-col gap-2 border-b border-solid py-5">
@@ -77,12 +141,18 @@ const SidebarSheet = ({ children }: SidebarSheetProps) => {
                         </Button>
                     ))}
                 </div>
-                <div className="flex flex-col gap-2 py-5">
-                    <Button className="justify-start gap-2" variant={"ghost"}>
-                        <LogOutIcon size={18} />
-                        Sair da Conta
-                    </Button>
-                </div>
+                {data?.user && (
+                    <div className="flex flex-col gap-2 py-5">
+                        <Button
+                            className="justify-start gap-2"
+                            variant={"ghost"}
+                            onClick={handleSingOutClick}
+                        >
+                            <LogOutIcon size={18} />
+                            Sair da Conta
+                        </Button>
+                    </div>
+                )}
             </SheetContent>
         </Sheet>
     );

@@ -96,3 +96,5 @@ const Home = async () => {
 };
 
 export default Home;
+
+// TODO: Implementar ranking de barbearias
