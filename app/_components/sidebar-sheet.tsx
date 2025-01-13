@@ -118,27 +118,38 @@ const SidebarSheet = ({ children }: SidebarSheetProps) => {
                             </Link>
                         </Button>
                     </SheetClose>
-                    <Button className="justify-start gap-2" variant={"ghost"}>
-                        <CalendarIcon size={18} />
-                        Agendamentos
-                    </Button>
+                    <SheetClose asChild>
+                        <Button
+                            className="justify-start gap-2"
+                            variant={"ghost"}
+                        >
+                            <CalendarIcon size={18} />
+                            Agendamentos
+                        </Button>
+                    </SheetClose>
                 </div>
 
                 <div className="flex flex-col gap-2 border-b border-solid py-5">
                     {quickSearchOptions.map((option) => (
-                        <Button
-                            className="justify-start gap-2"
-                            variant={"ghost"}
-                            key={option.label}
-                        >
-                            <Image
-                                src={option.icon}
-                                height={16}
-                                width={16}
-                                alt={`icone de ${option.label}`}
-                            />
-                            {option.label}
-                        </Button>
+                        <SheetClose key={option.label} asChild>
+                            <Button
+                                className="justify-start gap-2"
+                                variant={"ghost"}
+                                asChild
+                            >
+                                <Link
+                                    href={`/barbershops?service=${option.label}`}
+                                >
+                                    <Image
+                                        src={option.icon}
+                                        height={16}
+                                        width={16}
+                                        alt={`icone de ${option.label}`}
+                                    />
+                                    {option.label}
+                                </Link>
+                            </Button>
+                        </SheetClose>
                     ))}
                 </div>
                 {data?.user && (
