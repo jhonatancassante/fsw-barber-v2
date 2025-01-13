@@ -8,6 +8,7 @@ import BookingItem from "./_components/booking-item";
 import FormatedTitle from "./_components/formated-title";
 import Search from "./_components/search";
 import GreetingItem from "./_components/greeting-item";
+import Link from "next/link";
 
 const Home = async () => {
     const barbershop = await db.barbershop.findMany({});
@@ -36,14 +37,17 @@ const Home = async () => {
                             key={option.label}
                             variant="secondary"
                             className="gap-2 px-5"
+                            asChild
                         >
-                            <Image
-                                src={option.icon}
-                                height={16}
-                                width={16}
-                                alt={`icone de ${option.label}`}
-                            />
-                            {option.label}
+                            <Link href={`/barbershops?service=${option.label}`}>
+                                <Image
+                                    src={option.icon}
+                                    height={16}
+                                    width={16}
+                                    alt={`icone de ${option.label}`}
+                                />
+                                {option.label}
+                            </Link>
                         </Button>
                     ))}
                 </div>
