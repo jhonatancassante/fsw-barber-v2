@@ -133,9 +133,12 @@ const SidebarSheet = ({ children }: SidebarSheetProps) => {
                             <Button
                                 className="justify-start gap-2"
                                 variant={"ghost"}
+                                asChild
                             >
-                                <CalendarIcon size={18} />
-                                Administração
+                                <Link href={"/admin"}>
+                                    <CalendarIcon size={18} />
+                                    Administração
+                                </Link>
                             </Button>
                         </SheetClose>
                     )}
