@@ -8,17 +8,18 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String             @id @default(cuid())
   name          String?
-  email         String    @unique
+  email         String             @unique
   emailVerified DateTime?
   image         String?
-  role          String    @default("user")
+  role          String             @default("user")
   accounts      Account[]
   sessions      Session[]
   bookings      Booking[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  rating        BarbershopRating[]
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
 }
 
 model Account {
@@ -68,6 +69,7 @@ model Barbershop {
   description String
   imageUrl    String
   services    BarbershopService[]
+  rating      BarbershopRating[]
   createdAt   DateTime            @default(now())
   updatedAt   DateTime            @updatedAt
 }
@@ -96,4 +98,13 @@ model Booking {
   updatedAt DateTime          @updatedAt
 }
 
-
+model BarbershopRating {
+  id           String     @id @default(uuid())
+  barbershopId String
+  barbershop   Barbershop @relation(fields: [barbershopId], references: [id])
+  userId       String
+  user         User       @relation(fields: [userId], references: [id])
+  rating       Int
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
