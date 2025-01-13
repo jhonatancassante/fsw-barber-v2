@@ -1,20 +1,22 @@
+import { getToken } from "next-auth/jwt";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { adminRole } from "./app/_constants/roles";
 
-// Esse middleware verifica a presença do cookie 'next-auth.session-token'
-// e redireciona se ele não estiver presente.
+export async function middleware(request: NextRequest) {
+    const secret = process.env.NEXTAUTH_SECRET;
+    const token = await getToken({ req: request, secret });
 
-export function middleware(request: NextRequest) {
-    const sessionToken = request.cookies.get("next-auth.session-token");
+    console.log("JSON Web Token", token?.role);
 
     if (request.nextUrl.pathname.startsWith("/admin")) {
-        // Se não houver token, redirecionar para a página inicial
-        if (!sessionToken) {
+        // Verificar se o token está presente e se a role é "admin"
+        if (!token || token.role !== adminRole) {
             return NextResponse.redirect(new URL("/", request.url));
         }
     }
 
-    // Permite a requisição continuar se o token estiver presente
+    // Permite a requisição continuar se o token estiver presente e a role for "admin"
     return NextResponse.next();
 }
 
