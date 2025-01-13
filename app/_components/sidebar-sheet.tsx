@@ -25,6 +25,7 @@ import {
     DialogContent,
 } from "./ui/dialog";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { adminRole } from "../_constants/roles";
 
 interface SidebarSheetProps {
     children: ReactNode;
@@ -127,6 +128,17 @@ const SidebarSheet = ({ children }: SidebarSheetProps) => {
                             Agendamentos
                         </Button>
                     </SheetClose>
+                    {data?.user.role === adminRole && (
+                        <SheetClose asChild>
+                            <Button
+                                className="justify-start gap-2"
+                                variant={"ghost"}
+                            >
+                                <CalendarIcon size={18} />
+                                Administração
+                            </Button>
+                        </SheetClose>
+                    )}
                 </div>
 
                 <div className="flex flex-col gap-2 border-b border-solid py-5">

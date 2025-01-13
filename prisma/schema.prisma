@@ -13,6 +13,7 @@ model User {
   email         String    @unique
   emailVerified DateTime?
   image         String?
+  role          String    @default("user")
   accounts      Account[]
   sessions      Session[]
   bookings      Booking[]
@@ -94,3 +95,5 @@ model Booking {
   createdAt DateTime          @default(now())
   updatedAt DateTime          @updatedAt
 }
+
+

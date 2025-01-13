@@ -1,8 +1,20 @@
-import NextAuth from "next-auth";
+import NextAuth, { DefaultSession } from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { db } from "@/app/_lib/prisma";
-import { Adapter } from "next-auth/adapters";
+import { Adapter, AdapterUser } from "next-auth/adapters";
+
+declare module "next-auth" {
+    interface Session {
+        user: {
+            role: string;
+        } & DefaultSession["user"];
+    }
+}
+
+interface CustomAdapterUser extends AdapterUser {
+    role: string;
+}
 
 const handler = NextAuth({
     adapter: PrismaAdapter(db) as Adapter,
@@ -12,6 +24,14 @@ const handler = NextAuth({
             clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
         }),
     ],
+    callbacks: {
+        async session({ session, user }) {
+            if (session.user) {
+                session.user.role = (user as CustomAdapterUser).role;
+            }
+            return session;
+        },
+    },
 });
 
 export { handler as GET, handler as POST };
