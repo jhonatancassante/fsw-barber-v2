@@ -17,9 +17,7 @@ const BarbershopPage = async ({ params }: { params: { id: string } }) => {
         include: { services: true },
     });
 
-    if (!barbershop) {
-        return notFound();
-    }
+    if (!barbershop) return notFound();
 
     return (
         <div>

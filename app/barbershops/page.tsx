@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import BarbershopItem from "../_components/barbershop-item";
 import FormatedTitle from "../_components/formated-title";
 import Header from "../_components/header";
@@ -14,8 +15,7 @@ interface BarbershopsPageProps {
 const BarbershopsPage = async ({ searchParams }: BarbershopsPageProps) => {
     const { name, service } = await searchParams;
 
-    if (!name && !service)
-        return <h1>Nenhum nome de barbearia foi digitado.</h1>;
+    if (!name && !service) return notFound();
 
     const barbershops = await db.barbershop.findMany({
         where: {
