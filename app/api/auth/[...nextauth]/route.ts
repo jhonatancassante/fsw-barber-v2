@@ -7,6 +7,7 @@ import { Adapter, AdapterUser } from "next-auth/adapters";
 declare module "next-auth" {
     interface Session {
         user: {
+            id: string;
             role: string;
         } & DefaultSession["user"];
     }
@@ -30,12 +31,17 @@ const handler = NextAuth({
     callbacks: {
         async jwt({ token, user }) {
             if (user) {
+                token.userId = user.id;
                 token.role = (user as CustomAdapterUser).role;
             }
             return token;
         },
         async session({ session, token }) {
-            session.user.role = token.role as string;
+            session.user = {
+                ...session.user,
+                id: token.userId as string,
+                role: token.role as string,
+            };
             return session;
         },
     },
