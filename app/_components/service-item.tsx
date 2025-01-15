@@ -23,50 +23,12 @@ import { toast } from "sonner";
 import { getBookings } from "../_actions/get-bookings";
 import { Dialog, DialogContent } from "./ui/dialog";
 import SignInDialog from "./sign-in-dialog";
+import { getTimeList } from "../_utils/get-time-list";
 
 interface ServiceItemProps {
     service: BarbershopService;
     barbershop: Pick<Barbershop, "name">;
 }
-
-const TIME_LIST = [
-    "08:00",
-    "08:30",
-    "09:00",
-    "09:30",
-    "10:00",
-    "10:30",
-    "11:00",
-    "11:30",
-    "12:00",
-    "12:30",
-    "13:00",
-    "13:30",
-    "14:00",
-    "14:30",
-    "15:00",
-    "15:30",
-    "16:00",
-    "16:30",
-    "17:00",
-    "17:30",
-    "18:00",
-];
-
-const getTimeList = (bookings: Booking[]) => {
-    return TIME_LIST.filter((time) => {
-        const hour = Number(time.split(":")[0]);
-        const minutes = Number(time.split(":")[1]);
-
-        const hasBookingOnCurrentTime = bookings.some(
-            (booking) =>
-                booking.date.getHours() === hour &&
-                booking.date.getMinutes() === minutes,
-        );
-
-        return !hasBookingOnCurrentTime;
-    });
-};
 
 const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
     const { data } = useSession();
@@ -226,27 +188,28 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
 
                                         {selectedDay && (
                                             <div className="flex gap-3 overflow-x-auto border-b border-solid p-5 [&::-webkit-scrollbar]:hidden">
-                                                {getTimeList(dayBookings).map(
-                                                    (time) => (
-                                                        <Button
-                                                            key={time}
-                                                            variant={
-                                                                selectedTime ===
-                                                                time
-                                                                    ? "default"
-                                                                    : "outline"
-                                                            }
-                                                            className="rounded-full border border-input"
-                                                            onClick={() =>
-                                                                handleTimeSelect(
-                                                                    time,
-                                                                )
-                                                            }
-                                                        >
-                                                            {time}
-                                                        </Button>
-                                                    ),
-                                                )}
+                                                {getTimeList(
+                                                    dayBookings,
+                                                    selectedDay,
+                                                ).map((time) => (
+                                                    <Button
+                                                        key={time}
+                                                        variant={
+                                                            selectedTime ===
+                                                            time
+                                                                ? "default"
+                                                                : "outline"
+                                                        }
+                                                        className="rounded-full border border-input"
+                                                        onClick={() =>
+                                                            handleTimeSelect(
+                                                                time,
+                                                            )
+                                                        }
+                                                    >
+                                                        {time}
+                                                    </Button>
+                                                ))}
                                             </div>
                                         )}
 
@@ -349,5 +312,3 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
 };
 
 export default ServiceItem;
-
-// 01:54:00
