@@ -16,16 +16,10 @@ import { Avatar, AvatarImage } from "./ui/avatar";
 import Link from "next/link";
 import Image from "next/image";
 import { ReactNode } from "react";
-import {
-    Dialog,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
-    DialogContent,
-} from "./ui/dialog";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
+import { signOut, useSession } from "next-auth/react";
 import { adminRole } from "../_constants/roles";
+import SignInDialog from "./sign-in-dialog";
 
 interface SidebarSheetProps {
     children: ReactNode;
@@ -33,7 +27,6 @@ interface SidebarSheetProps {
 
 const SidebarSheet = ({ children }: SidebarSheetProps) => {
     const { data } = useSession();
-    const handleLoginWithGoogleClick = () => signIn("google");
     const handleSingOutClick = () => signOut();
 
     return (
@@ -76,30 +69,8 @@ const SidebarSheet = ({ children }: SidebarSheetProps) => {
                                         <LogInIcon />
                                     </Button>
                                 </DialogTrigger>
-                                <DialogContent className="w-[90%] rounded-lg">
-                                    <DialogHeader>
-                                        <DialogTitle>
-                                            Faça seu login
-                                        </DialogTitle>
-                                        <DialogDescription>
-                                            Conecte-se usando sua conta do
-                                            Google
-                                        </DialogDescription>
-                                    </DialogHeader>
-
-                                    <Button
-                                        className="gap-1 font-bold"
-                                        variant={"outline"}
-                                        onClick={handleLoginWithGoogleClick}
-                                    >
-                                        <Image
-                                            src={"/google.svg"}
-                                            height={16}
-                                            width={16}
-                                            alt="logo google"
-                                        />
-                                        Google
-                                    </Button>
+                                <DialogContent className="w=[90%] rounded-lg">
+                                    <SignInDialog />
                                 </DialogContent>
                             </Dialog>
                         </div>
