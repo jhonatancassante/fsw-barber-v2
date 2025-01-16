@@ -9,6 +9,14 @@ import FormatedTitle from "./_components/formated-title";
 import Search from "./_components/search";
 import GreetingItem from "./_components/greeting-item";
 import Link from "next/link";
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+} from "./_components/ui/carousel";
+import { getConfirmedBookings } from "./_actions/get-confirmed-bookings";
 
 const Home = async () => {
     const barbershop = await db.barbershop.findMany({});
@@ -17,6 +25,8 @@ const Home = async () => {
             name: "desc",
         },
     });
+
+    const bookings = await getConfirmedBookings();
 
     return (
         <div>
@@ -63,8 +73,32 @@ const Home = async () => {
                 </div>
 
                 {/* AGENDAMENTOS */}
-                <FormatedTitle title="Agendamentos" />
-                <BookingItem />
+                {bookings.length > 0 ? (
+                    <div>
+                        <FormatedTitle title="Agendamentos" />
+                        <div className="flex flex-row items-center justify-center">
+                            <Carousel className="w-[90%]">
+                                <CarouselContent>
+                                    {bookings.map((booking) => (
+                                        <CarouselItem key={booking.id}>
+                                            <BookingItem booking={booking} />
+                                        </CarouselItem>
+                                    ))}
+                                </CarouselContent>
+                                <CarouselPrevious
+                                    size="icon"
+                                    className="-left-6"
+                                />
+                                <CarouselNext
+                                    size="icon"
+                                    className="-right-6"
+                                />
+                            </Carousel>
+                        </div>
+                    </div>
+                ) : (
+                    <></>
+                )}
 
                 {/* BARBEARIAS */}
                 <FormatedTitle title="Recomendados" />

@@ -16,7 +16,7 @@ import {
 import { Calendar } from "./ui/calendar";
 import { ptBR } from "date-fns/locale";
 import { useEffect, useState } from "react";
-import { format, set } from "date-fns";
+import { set } from "date-fns";
 import { useSession } from "next-auth/react";
 import { createBooking } from "../_actions/create-booking";
 import { toast } from "sonner";
@@ -24,6 +24,7 @@ import { getBookings } from "../_actions/get-bookings";
 import { Dialog, DialogContent } from "./ui/dialog";
 import SignInDialog from "./sign-in-dialog";
 import { getTimeList } from "../_utils/get-time-list";
+import BookingInfos from "./booking-infos";
 
 interface ServiceItemProps {
     service: BarbershopService;
@@ -214,66 +215,13 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                                         )}
 
                                         {selectedTime && selectedDay && (
-                                            <div className="p-5">
-                                                <Card>
-                                                    <CardContent className="flex flex-col gap-4 p-3">
-                                                        <div className="flex items-center justify-between">
-                                                            <h2 className="font-bold">
-                                                                {service.name}
-                                                            </h2>
-                                                            <p className="text-sm font-bold">
-                                                                {Intl.NumberFormat(
-                                                                    "pt-BR",
-                                                                    {
-                                                                        style: "currency",
-                                                                        currency:
-                                                                            "BRL",
-                                                                    },
-                                                                ).format(
-                                                                    Number(
-                                                                        service.price,
-                                                                    ),
-                                                                )}
-                                                            </p>
-                                                        </div>
-
-                                                        <div className="flex items-center justify-between">
-                                                            <h2 className="text-sm text-gray-400">
-                                                                Data
-                                                            </h2>
-                                                            <p className="text-sm">
-                                                                {format(
-                                                                    selectedDay,
-                                                                    "dd 'de' MMMM",
-                                                                    {
-                                                                        locale: ptBR,
-                                                                    },
-                                                                )}
-                                                            </p>
-                                                        </div>
-
-                                                        <div className="flex items-center justify-between">
-                                                            <h2 className="text-sm text-gray-400">
-                                                                Horário
-                                                            </h2>
-                                                            <p className="text-sm">
-                                                                {selectedTime}
-                                                            </p>
-                                                        </div>
-
-                                                        <div className="flex items-center justify-between">
-                                                            <h2 className="text-sm text-gray-400">
-                                                                Barbearia
-                                                            </h2>
-                                                            <p className="text-sm">
-                                                                {
-                                                                    barbershop.name
-                                                                }
-                                                            </p>
-                                                        </div>
-                                                    </CardContent>
-                                                </Card>
-                                            </div>
+                                            <BookingInfos
+                                                serviceName={service.name}
+                                                price={Number(service.price)}
+                                                date={selectedDay}
+                                                time={selectedTime}
+                                                barbershopName={barbershop.name}
+                                            />
                                         )}
 
                                         <SheetFooter className="px-5">

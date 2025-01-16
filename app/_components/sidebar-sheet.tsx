@@ -1,7 +1,13 @@
 "use client";
 
 import { Button } from "./ui/button";
-import { CalendarIcon, HomeIcon, LogInIcon, LogOutIcon } from "lucide-react";
+import {
+    CalendarIcon,
+    FileSlidersIcon,
+    HomeIcon,
+    LogInIcon,
+    LogOutIcon,
+} from "lucide-react";
 import {
     Sheet,
     SheetClose,
@@ -94,9 +100,12 @@ const SidebarSheet = ({ children }: SidebarSheetProps) => {
                         <Button
                             className="justify-start gap-2"
                             variant={"ghost"}
+                            asChild
                         >
-                            <CalendarIcon size={18} />
-                            Agendamentos
+                            <Link href="/bookings">
+                                <CalendarIcon size={18} />
+                                Agendamentos
+                            </Link>
                         </Button>
                     </SheetClose>
                     {data?.user.role === adminRole && (
@@ -107,7 +116,7 @@ const SidebarSheet = ({ children }: SidebarSheetProps) => {
                                 asChild
                             >
                                 <Link href={"/admin"}>
-                                    <CalendarIcon size={18} />
+                                    <FileSlidersIcon size={18} />
                                     Administração
                                 </Link>
                             </Button>
