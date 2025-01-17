@@ -22,6 +22,7 @@ export const getConcludedBookings = async () => {
         orderBy: {
             date: "desc",
         },
+        take: 10,
     });
 
     if (bookings.length === 0) return [];
