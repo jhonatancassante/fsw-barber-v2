@@ -24,7 +24,7 @@ import { getBookings } from "../_actions/get-bookings";
 import { Dialog, DialogContent } from "./ui/dialog";
 import SignInDialog from "./sign-in-dialog";
 import { getTimeList } from "../_utils/get-time-list";
-import BookingInfos from "./booking-infos";
+import BookingSummary from "./booking-summary";
 
 interface ServiceItemProps {
     service: BarbershopService;
@@ -70,6 +70,19 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
 
     const handleTimeSelect = (time: string | undefined) => {
         setSelectedTime(time);
+
+        if (!selectedDay) throw new Error("Dia não selecionado!");
+        if (!selectedTime) throw new Error("Horário não selecionado!");
+
+        const hour = Number(selectedTime.split(":")[0]);
+        const minute = Number(selectedTime.split(":")[1]);
+
+        const newDate = set(selectedDay, {
+            hours: hour,
+            minutes: minute,
+        });
+
+        setSelectedDay(newDate);
     };
 
     const handleCreateBooking = async () => {
@@ -78,18 +91,10 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
             if (!selectedTime) throw new Error("Horário não selecionado!");
             if (!data?.user.id) throw new Error("Usuário não logado!");
 
-            const hour = Number(selectedTime.split(":")[0]);
-            const minute = Number(selectedTime.split(":")[1]);
-
-            const newDate = set(selectedDay, {
-                hours: hour,
-                minutes: minute,
-            });
-
             await createBooking({
                 serviceId: service.id,
                 userId: data.user.id,
-                date: newDate,
+                date: selectedDay,
             });
             toast.success("Reserva criada com sucesso!");
         } catch (error) {
@@ -215,13 +220,18 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                                         )}
 
                                         {selectedTime && selectedDay && (
-                                            <BookingInfos
-                                                serviceName={service.name}
-                                                price={Number(service.price)}
-                                                date={selectedDay}
-                                                time={selectedTime}
-                                                barbershopName={barbershop.name}
-                                            />
+                                            <div className="p-5">
+                                                <BookingSummary
+                                                    serviceName={service.name}
+                                                    price={Number(
+                                                        service.price,
+                                                    )}
+                                                    date={selectedDay}
+                                                    barbershopName={
+                                                        barbershop.name
+                                                    }
+                                                />
+                                            </div>
                                         )}
 
                                         <SheetFooter className="px-5">

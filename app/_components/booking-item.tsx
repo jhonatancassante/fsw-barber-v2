@@ -4,6 +4,17 @@ import { Badge } from "./ui/badge";
 import { Card, CardContent } from "./ui/card";
 import { format, isPast } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import {
+    Sheet,
+    SheetContent,
+    SheetDescription,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from "./ui/sheet";
+import Image from "next/image";
+import BookingSummary from "./booking-summary";
+import PhoneItem from "./phone-item";
 
 interface BookingItemProps {
     booking: Prisma.BookingGetPayload<{
@@ -13,50 +24,109 @@ interface BookingItemProps {
 
 const BookingItem = ({ booking }: BookingItemProps) => {
     const isFinished = isPast(booking.date);
+    const {
+        service: { barbershop },
+    } = booking;
 
     return (
-        <Card>
-            <CardContent className="flex justify-between p-0">
-                <div className="flex flex-col gap-2 py-5 pl-5">
+        <Sheet>
+            <SheetTrigger asChild>
+                <Card>
+                    <CardContent className="flex justify-between p-0">
+                        <div className="flex flex-col gap-2 py-5 pl-5">
+                            <Badge
+                                className="w-fit rounded-xl"
+                                variant={isFinished ? "secondary" : "default"}
+                            >
+                                {isFinished ? "Finalizado" : "Confirmado"}
+                            </Badge>
+                            <h3 className="font-semibold">
+                                {booking.service.name}
+                            </h3>
+                            <div className="flex gap-2">
+                                <Avatar className="h-6 w-6">
+                                    <AvatarImage
+                                        src={barbershop.imageUrl}
+                                        alt="Avatar"
+                                    />
+                                </Avatar>
+                                <p className="text-sm">{barbershop.name}</p>
+                            </div>
+                        </div>
+                        <div className="flex flex-col items-center justify-center gap-1 border-l-2 border-solid px-5">
+                            <p className="text-sm capitalize">
+                                {format(booking.date, "MMMM", {
+                                    locale: ptBR,
+                                })}
+                            </p>
+                            <p className="text-2xl">
+                                {format(booking.date, "dd", {
+                                    locale: ptBR,
+                                })}
+                            </p>
+                            <p className="text-sm">
+                                {format(booking.date, "HH':'mm", {
+                                    locale: ptBR,
+                                })}
+                            </p>
+                        </div>
+                    </CardContent>
+                </Card>
+            </SheetTrigger>
+            <SheetContent className="w-[90%]">
+                <SheetHeader className="border-b border-solid pb-6 text-left">
+                    <SheetTitle>Informações da Reserva</SheetTitle>
+                    <SheetDescription>
+                        Verifique as informações da sua reserva.
+                    </SheetDescription>
+                </SheetHeader>
+
+                <div className="relative flex h-[180px] w-full items-end">
+                    <Image
+                        src="/map.png"
+                        fill
+                        className="rounded-xl object-cover"
+                        alt={`Mapa da barbearia ${barbershop.name}`}
+                    />
+                    <Card className="z-10 mx-5 mb-3 w-full">
+                        <CardContent className="flex items-center gap-3 px-5 py-3">
+                            <Avatar>
+                                <AvatarImage src={barbershop.imageUrl} />
+                            </Avatar>
+                            <div className="flex flex-col gap-1">
+                                <h3 className="font-bold">{barbershop.name}</h3>
+                                <p className="text-xs">{barbershop.address}</p>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </div>
+
+                <div className="mb-3 mt-6">
                     <Badge
                         className="w-fit rounded-xl"
                         variant={isFinished ? "secondary" : "default"}
                     >
                         {isFinished ? "Finalizado" : "Confirmado"}
                     </Badge>
-                    <h3 className="font-semibold">{booking.service.name}</h3>
-                    <div className="flex gap-2">
-                        <Avatar className="h-6 w-6">
-                            <AvatarImage
-                                src={booking.service.barbershop.imageUrl}
-                                alt="Avatar"
-                            />
-                        </Avatar>
-                        <p className="text-sm">
-                            {booking.service.barbershop.name}
-                        </p>
-                    </div>
                 </div>
-                <div className="flex flex-col items-center justify-center gap-1 border-l-2 border-solid px-5">
-                    <p className="text-sm capitalize">
-                        {format(booking.date, "MMMM", {
-                            locale: ptBR,
-                        })}
-                    </p>
-                    <p className="text-2xl">
-                        {format(booking.date, "dd", {
-                            locale: ptBR,
-                        })}
-                    </p>
-                    <p className="text-sm">
-                        {format(booking.date, "HH':'mm", {
-                            locale: ptBR,
-                        })}
-                    </p>
+
+                <BookingSummary
+                    serviceName={booking.service.name}
+                    price={Number(booking.service.price)}
+                    date={booking.date}
+                    barbershopName={barbershop.name}
+                />
+
+                <div className="mt-6 space-y-3">
+                    {barbershop.phones.map((phone, index) => (
+                        <PhoneItem key={`${index}-${phone}`} phone={phone} />
+                    ))}
                 </div>
-            </CardContent>
-        </Card>
+            </SheetContent>
+        </Sheet>
     );
 };
 
 export default BookingItem;
+
+// TODO: 00:42:00
