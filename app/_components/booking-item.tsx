@@ -1,3 +1,5 @@
+"use client";
+
 import { Prisma } from "@prisma/client";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { Badge } from "./ui/badge";
@@ -6,8 +8,10 @@ import { format, isPast } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import {
     Sheet,
+    SheetClose,
     SheetContent,
     SheetDescription,
+    SheetFooter,
     SheetHeader,
     SheetTitle,
     SheetTrigger,
@@ -15,6 +19,22 @@ import {
 import Image from "next/image";
 import BookingSummary from "./booking-summary";
 import PhoneItem from "./phone-item";
+import { Button, buttonVariants } from "./ui/button";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "./ui/alert-dialog";
+import { cn } from "../_lib/utils";
+import { deleteBooking } from "../_actions/delete-booking";
+import { toast } from "sonner";
+import { useState } from "react";
 
 interface BookingItemProps {
     booking: Prisma.BookingGetPayload<{
@@ -23,13 +43,28 @@ interface BookingItemProps {
 }
 
 const BookingItem = ({ booking }: BookingItemProps) => {
+    const [isSheetOpen, setIsSheetOpen] = useState(false);
+
     const isFinished = isPast(booking.date);
     const {
         service: { barbershop },
     } = booking;
 
+    const handleSheetOpendChange = (isOpen: boolean) => setIsSheetOpen(isOpen);
+
+    const handleCancelBooking = async () => {
+        try {
+            await deleteBooking(booking.id);
+            setIsSheetOpen(false);
+            toast.success("Agendamento cancelado com sucesso!");
+        } catch (error) {
+            console.log(error);
+            toast.error("Não foi possível cancelar o agendamento!");
+        }
+    };
+
     return (
-        <Sheet>
+        <Sheet open={isSheetOpen} onOpenChange={handleSheetOpendChange}>
             <SheetTrigger asChild>
                 <Card>
                     <CardContent className="flex justify-between p-0">
@@ -122,6 +157,55 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                         <PhoneItem key={`${index}-${phone}`} phone={phone} />
                     ))}
                 </div>
+
+                <SheetFooter className="mt-6">
+                    <div className="flex items-center justify-between gap-3">
+                        <SheetClose asChild>
+                            <Button variant={"secondary"} className="w-full">
+                                Voltar
+                            </Button>
+                        </SheetClose>
+                        {!isFinished && (
+                            <AlertDialog>
+                                <AlertDialogTrigger asChild>
+                                    <Button
+                                        variant={"destructive"}
+                                        className="w-full"
+                                    >
+                                        Cancelar Reserva
+                                    </Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent className="w-[90%] rounded-xl">
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>
+                                            Você quer cancelar sua reserva?
+                                        </AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            Você tem certeza que deseja
+                                            realmente fazer o cancelamento? Essa
+                                            ação não poderá ser revertida.
+                                        </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter className="flex flex-row items-center gap-3">
+                                        <AlertDialogCancel className="m-0 w-full">
+                                            Cancelar
+                                        </AlertDialogCancel>
+                                        <AlertDialogAction
+                                            className={`${cn(
+                                                buttonVariants({
+                                                    variant: "destructive",
+                                                }),
+                                            )} m-0 w-full`}
+                                            onClick={handleCancelBooking}
+                                        >
+                                            Confirmar
+                                        </AlertDialogAction>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
+                        )}
+                    </div>
+                </SheetFooter>
             </SheetContent>
         </Sheet>
     );
@@ -129,4 +213,4 @@ const BookingItem = ({ booking }: BookingItemProps) => {
 
 export default BookingItem;
 
-// TODO: 00:42:00
+// TODO: 00:55:00
