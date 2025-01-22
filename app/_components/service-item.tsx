@@ -15,7 +15,7 @@ import {
 } from "./ui/sheet";
 import { Calendar } from "./ui/calendar";
 import { ptBR } from "date-fns/locale";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { set } from "date-fns";
 import { useSession } from "next-auth/react";
 import { createBooking } from "../_actions/create-booking";
@@ -40,6 +40,11 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
         undefined,
     );
     const [dayBookings, setDayBookings] = useState<Booking[]>([]);
+
+    const timeList = useMemo(() => {
+        if (!selectedDay) return [];
+        return getTimeList(dayBookings, selectedDay);
+    }, [dayBookings, selectedDay]);
 
     useEffect(() => {
         const fetch = async () => {
@@ -189,28 +194,33 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
 
                                         {selectedDay && (
                                             <div className="flex gap-3 overflow-x-auto border-b border-solid p-5 [&::-webkit-scrollbar]:hidden">
-                                                {getTimeList(
-                                                    dayBookings,
-                                                    selectedDay,
-                                                ).map((time) => (
-                                                    <Button
-                                                        key={time}
-                                                        variant={
-                                                            selectedTime ===
-                                                            time
-                                                                ? "default"
-                                                                : "outline"
-                                                        }
-                                                        className="rounded-full border border-input"
-                                                        onClick={() =>
-                                                            handleTimeSelect(
-                                                                time,
-                                                            )
-                                                        }
-                                                    >
-                                                        {time}
-                                                    </Button>
-                                                ))}
+                                                {timeList.length > 0 ? (
+                                                    timeList.map((time) => (
+                                                        <Button
+                                                            key={time}
+                                                            variant={
+                                                                selectedTime ===
+                                                                time
+                                                                    ? "default"
+                                                                    : "outline"
+                                                            }
+                                                            className="rounded-full border border-input"
+                                                            onClick={() =>
+                                                                handleTimeSelect(
+                                                                    time,
+                                                                )
+                                                            }
+                                                        >
+                                                            {time}
+                                                        </Button>
+                                                    ))
+                                                ) : (
+                                                    <p className="text-xs">
+                                                        Não há horários
+                                                        disponíveis para essa
+                                                        data!
+                                                    </p>
+                                                )}
                                             </div>
                                         )}
 
