@@ -70,19 +70,6 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
 
     const handleTimeSelect = (time: string | undefined) => {
         setSelectedTime(time);
-
-        if (!selectedDay) throw new Error("Dia não selecionado!");
-        if (!selectedTime) throw new Error("Horário não selecionado!");
-
-        const hour = Number(selectedTime.split(":")[0]);
-        const minute = Number(selectedTime.split(":")[1]);
-
-        const newDate = set(selectedDay, {
-            hours: hour,
-            minutes: minute,
-        });
-
-        setSelectedDay(newDate);
     };
 
     const handleCreateBooking = async () => {
@@ -91,10 +78,18 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
             if (!selectedTime) throw new Error("Horário não selecionado!");
             if (!data?.user.id) throw new Error("Usuário não logado!");
 
+            const hour = Number(selectedTime.split(":")[0]);
+            const minute = Number(selectedTime.split(":")[1]);
+
+            const newDate = set(selectedDay, {
+                hours: hour,
+                minutes: minute,
+            });
+
             await createBooking({
                 serviceId: service.id,
                 userId: data.user.id,
-                date: selectedDay,
+                date: newDate,
             });
             toast.success("Reserva criada com sucesso!");
         } catch (error) {
@@ -220,13 +215,14 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                                         )}
 
                                         {selectedTime && selectedDay && (
-                                            <div className="p-5">
+                                            <div className="p-5 pb-0">
                                                 <BookingSummary
                                                     serviceName={service.name}
                                                     price={Number(
                                                         service.price,
                                                     )}
                                                     date={selectedDay}
+                                                    time={selectedTime}
                                                     barbershopName={
                                                         barbershop.name
                                                     }
@@ -234,7 +230,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                                             </div>
                                         )}
 
-                                        <SheetFooter className="px-5">
+                                        <SheetFooter className="p-5">
                                             <SheetClose asChild>
                                                 <Button
                                                     onClick={

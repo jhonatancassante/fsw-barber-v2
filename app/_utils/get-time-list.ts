@@ -33,13 +33,22 @@ export const getTimeList = (bookings: Booking[], pickedDay: Date) => {
         const now = new Date();
         now.setHours(now.getHours() + 1);
 
+        const hasBookingOnPast = pickedDay < now;
+
         const hasBookingOnCurrentTime = bookings.some(
             (booking) =>
-                pickedDay < now ||
-                (booking.date.getHours() === hour &&
-                    booking.date.getMinutes() === minutes),
+                booking.date.getHours() === hour &&
+                booking.date.getMinutes() === minutes,
         );
 
-        return !hasBookingOnCurrentTime;
+        // console.log(
+        //     pickedDay.toString(),
+        //     hasBookingOnCurrentTime,
+        //     hasBookingOnPast,
+        //     " = ",
+        //     hasBookingOnCurrentTime || hasBookingOnPast,
+        // );
+
+        return !(hasBookingOnCurrentTime || hasBookingOnPast);
     });
 };

@@ -108,7 +108,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                     </CardContent>
                 </Card>
             </SheetTrigger>
-            <SheetContent className="w-[90%]">
+            <SheetContent className="w-[80%]">
                 <SheetHeader className="border-b border-solid pb-6 text-left">
                     <SheetTitle>Informações da Reserva</SheetTitle>
                     <SheetDescription>
@@ -213,4 +213,4 @@ const BookingItem = ({ booking }: BookingItemProps) => {
 
 export default BookingItem;
 
-// TODO: 00:55:00
+// TODO: 01:48:00
