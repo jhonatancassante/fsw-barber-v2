@@ -6,10 +6,10 @@ import Search from "../_components/search";
 import { db } from "../_lib/prisma";
 
 interface BarbershopsPageProps {
-    searchParams: {
+    searchParams: Promise<{
         name?: string;
         service?: string;
-    };
+    }>;
 }
 
 const BarbershopsPage = async ({ searchParams }: BarbershopsPageProps) => {

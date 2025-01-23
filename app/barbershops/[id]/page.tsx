@@ -9,7 +9,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-const BarbershopPage = async ({ params }: { params: { id: string } }) => {
+interface BarbershopPageProps {
+    params: Promise<{ id: string }>;
+}
+
+const BarbershopPage = async ({ params }: BarbershopPageProps) => {
     const { id } = await params;
 
     const barbershop = await getBarbershop(id);
