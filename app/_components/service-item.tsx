@@ -1,6 +1,6 @@
 "use client";
 
-import { Barbershop, BarbershopService, Booking } from "@prisma/client";
+import { Barbershop, Booking } from "@prisma/client";
 import { Card, CardContent } from "./ui/card";
 import Image from "next/image";
 import { Button } from "./ui/button";
@@ -27,7 +27,16 @@ import { getTimeList } from "../_utils/get-time-list";
 import BookingSummary from "./booking-summary";
 
 interface ServiceItemProps {
-    service: BarbershopService;
+    service: {
+        name: string;
+        id: string;
+        description: string;
+        imageUrl: string;
+        price: number;
+        barbershopId: string;
+        createdAt: Date;
+        updatedAt: Date;
+    };
     barbershop: Pick<Barbershop, "name">;
 }
 

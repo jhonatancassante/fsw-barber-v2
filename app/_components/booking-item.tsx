@@ -212,5 +212,3 @@ const BookingItem = ({ booking }: BookingItemProps) => {
 };
 
 export default BookingItem;
-
-// TODO: 01:48:00

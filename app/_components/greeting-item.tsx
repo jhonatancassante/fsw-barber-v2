@@ -2,6 +2,8 @@
 
 import { useSession } from "next-auth/react";
 import greeting from "../_utils/greeting";
+import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 const GreetingItem = () => {
     const { data } = useSession();
@@ -12,7 +14,16 @@ const GreetingItem = () => {
             <h2 className="text-xl font-bold">
                 {greeting() + (name ? `, ${name[0]}!` : `!`)}
             </h2>
-            <p>Quinta-feira, 9 de janeiro de 2025.</p>
+            <p>
+                <span className="capitalize">
+                    {format(new Date(), "EEEE", {
+                        locale: ptBR,
+                    })}
+                </span>
+                {format(new Date(), "', 'dd' de 'MMMM'.'", {
+                    locale: ptBR,
+                })}
+            </p>
         </div>
     );
 };
