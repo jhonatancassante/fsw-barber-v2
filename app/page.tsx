@@ -28,6 +28,8 @@ const Home = async () => {
 
     const bookings = await getConfirmedBookings();
 
+    console.log(process.env.NEXTAUTH_URL as string);
+
     return (
         <div>
             <Header />
@@ -129,3 +131,4 @@ const Home = async () => {
 export default Home;
 
 // TODO: Implementar ranking de barbearias
+// TODO: 00:34:58
