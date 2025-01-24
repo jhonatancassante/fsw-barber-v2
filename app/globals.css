@@ -34,6 +34,11 @@
 
         --radius: 0.5rem;
     }
+
+    .loader {
+        border-top-style: solid;
+        border-top-color: hsl(var(--primary));
+    }
 }
 
 @layer base {
