@@ -20,7 +20,7 @@ import { set } from "date-fns";
 import { useSession } from "next-auth/react";
 import { createBooking } from "../_actions/create-booking";
 import { toast } from "sonner";
-import { getBookings } from "../_actions/get-bookings";
+import { getBookings } from "../_data/get-bookings";
 import { Dialog, DialogContent } from "./ui/dialog";
 import SignInDialog from "./sign-in-dialog";
 import { getTimeList } from "../_utils/get-time-list";

@@ -1,4 +1,4 @@
-import { getBarbershop } from "@/app/_actions/get-barbershop";
+import { getBarbershop } from "@/app/_data/get-barbershop";
 import FormatedTitle from "@/app/_components/formated-title";
 import PhoneItem from "@/app/_components/phone-item";
 import ServiceItem from "@/app/_components/service-item";

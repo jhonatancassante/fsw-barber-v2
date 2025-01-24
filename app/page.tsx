@@ -16,7 +16,7 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from "./_components/ui/carousel";
-import { getConfirmedBookings } from "./_actions/get-confirmed-bookings";
+import { getConfirmedBookings } from "./_data/get-confirmed-bookings";
 
 const Home = async () => {
     const barbershop = await db.barbershop.findMany({});
@@ -129,4 +129,4 @@ const Home = async () => {
 export default Home;
 
 // TODO: Implementar ranking de barbearias
-// TODO: 01:40:00
+// TODO: 01:17:00
