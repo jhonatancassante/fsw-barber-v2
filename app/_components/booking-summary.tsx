@@ -6,7 +6,6 @@ interface BookingSummaryParams {
     serviceName: string;
     price: number;
     date: Date;
-    time?: string;
     barbershopName: string;
 }
 
@@ -36,9 +35,7 @@ const BookingSummary = (params: BookingSummaryParams) => {
                 <div className="flex items-center justify-between">
                     <h2 className="text-sm text-gray-400">Horário</h2>
                     <p className="text-sm">
-                        {params.time
-                            ? params.time
-                            : format(params.date, "HH:mm", { locale: ptBR })}
+                        {format(params.date, "HH:mm", { locale: ptBR })}
                     </p>
                 </div>
 

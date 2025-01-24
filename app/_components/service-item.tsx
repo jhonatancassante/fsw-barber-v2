@@ -67,6 +67,15 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
         fetch();
     }, [selectedDay, service.id]);
 
+    const selectedDate = useMemo(() => {
+        if (!selectedDay || !selectedTime) return;
+
+        return set(selectedDay, {
+            hours: Number(selectedTime.split(":")[0]),
+            minutes: Number(selectedTime.split(":")[1]),
+        });
+    }, [selectedDay, selectedTime]);
+
     const handleSignInDialogOpen = () =>
         setSignInDialogIsOpen(!signInDialogIsOpen);
 
@@ -88,22 +97,14 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
 
     const handleCreateBooking = async () => {
         try {
-            if (!selectedDay) throw new Error("Dia não selecionado!");
-            if (!selectedTime) throw new Error("Horário não selecionado!");
             if (!data?.user.id) throw new Error("Usuário não logado!");
-
-            const hour = Number(selectedTime.split(":")[0]);
-            const minute = Number(selectedTime.split(":")[1]);
-
-            const newDate = set(selectedDay, {
-                hours: hour,
-                minutes: minute,
-            });
+            if (!selectedDate)
+                throw new Error("Data ou horário não selecionado!");
 
             await createBooking({
                 serviceId: service.id,
                 userId: data.user.id,
-                date: newDate,
+                date: selectedDate,
             });
             toast.success("Reserva criada com sucesso!");
         } catch (error) {
@@ -233,15 +234,14 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                                             </div>
                                         )}
 
-                                        {selectedTime && selectedDay && (
+                                        {selectedDate && (
                                             <div className="p-5 pb-0">
                                                 <BookingSummary
                                                     serviceName={service.name}
                                                     price={Number(
                                                         service.price,
                                                     )}
-                                                    date={selectedDay}
-                                                    time={selectedTime}
+                                                    date={selectedDate}
                                                     barbershopName={
                                                         barbershop.name
                                                     }
