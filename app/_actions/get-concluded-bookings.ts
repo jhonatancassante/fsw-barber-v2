@@ -29,5 +29,13 @@ export const getConcludedBookings = async () => {
 
     if (bookings.length === 0) return [];
 
-    return bookings;
+    return bookings.map((booking) => {
+        return {
+            ...booking,
+            service: {
+                ...booking.service,
+                price: Number(booking.service.price),
+            },
+        };
+    });
 };

@@ -1,6 +1,6 @@
 "use client";
 
-import { Prisma } from "@prisma/client";
+import { Barbershop } from "@prisma/client";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { Badge } from "./ui/badge";
 import { Card, CardContent } from "./ui/card";
@@ -37,9 +37,25 @@ import { toast } from "sonner";
 import { useState } from "react";
 
 interface BookingItemProps {
-    booking: Prisma.BookingGetPayload<{
-        include: { service: { include: { barbershop: true } } };
-    }>;
+    booking: {
+        id: string;
+        userId: string;
+        serviceId: string;
+        service: {
+            id: string;
+            name: string;
+            description: string;
+            imageUrl: string;
+            price: number;
+            barbershopId: string;
+            barbershop: Barbershop;
+            createdAt: Date;
+            updatedAt: Date;
+        };
+        date: Date;
+        createdAt: Date;
+        updatedAt: Date;
+    };
 }
 
 const BookingItem = ({ booking }: BookingItemProps) => {

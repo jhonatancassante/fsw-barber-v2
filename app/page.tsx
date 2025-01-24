@@ -28,8 +28,6 @@ const Home = async () => {
 
     const bookings = await getConfirmedBookings();
 
-    console.log(process.env.NEXTAUTH_URL as string);
-
     return (
         <div>
             <Header />
