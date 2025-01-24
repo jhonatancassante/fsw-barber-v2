@@ -111,7 +111,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
             toast.success("Reserva criada com sucesso!", {
                 action: {
                     label: "Ver agendamentos",
-                    onClick: () => router.push("/bookings"),
+                    onClick: () => router.push("/pages/bookings"),
                 },
             });
         } catch (error) {
@@ -262,10 +262,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                                                     onClick={
                                                         handleCreateBooking
                                                     }
-                                                    disabled={
-                                                        !selectedDay ||
-                                                        !selectedTime
-                                                    }
+                                                    disabled={!selectedDate}
                                                 >
                                                     Confirmar
                                                 </Button>

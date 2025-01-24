@@ -9,7 +9,7 @@ const Header = () => {
     return (
         <Card className="rounded-none shadow-md">
             <CardContent className="flex flex-row items-center justify-between p-5">
-                <Link href={"/"}>
+                <Link href={"/pages/home"}>
                     <Image
                         src="/logo.png"
                         alt="logo FSW Barber"

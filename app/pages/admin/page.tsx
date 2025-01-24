@@ -3,7 +3,7 @@
 // import { useSession } from "next-auth/react";
 // import { useRouter } from "next/navigation";
 // import { useEffect } from "react";
-import Header from "../_components/header";
+import Header from "../../_components/header";
 
 const AdminPage = () => {
     // const { data: session } = useSession();

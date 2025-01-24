@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
-import BarbershopItem from "../_components/barbershop-item";
-import FormatedTitle from "../_components/formated-title";
-import Header from "../_components/header";
-import Search from "../_components/search";
-import { db } from "../_lib/prisma";
+import BarbershopItem from "../../_components/barbershop-item";
+import FormatedTitle from "../../_components/formated-title";
+import Header from "../../_components/header";
+import Search from "../../_components/search";
+import { db } from "../../_lib/prisma";
 
 interface BarbershopsPageProps {
     searchParams: Promise<{

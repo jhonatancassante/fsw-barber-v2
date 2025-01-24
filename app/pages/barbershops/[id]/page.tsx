@@ -38,7 +38,7 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
                     variant="secondary"
                     asChild
                 >
-                    <Link href="/">
+                    <Link href="/pages/home">
                         <ChevronLeftIcon />
                     </Link>
                 </Button>

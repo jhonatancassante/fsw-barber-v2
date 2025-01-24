@@ -1,8 +1,8 @@
-import FormatedTitle from "../_components/formated-title";
-import Header from "../_components/header";
-import BookingItem from "../_components/booking-item";
-import { getConcludedBookings } from "../_data/get-concluded-bookings";
-import { getConfirmedBookings } from "../_data/get-confirmed-bookings";
+import FormatedTitle from "../../_components/formated-title";
+import Header from "../../_components/header";
+import BookingItem from "../../_components/booking-item";
+import { getConcludedBookings } from "../../_data/get-concluded-bookings";
+import { getConfirmedBookings } from "../../_data/get-confirmed-bookings";
 
 const BookingsPage = async () => {
     const concludedBookings = await getConcludedBookings();

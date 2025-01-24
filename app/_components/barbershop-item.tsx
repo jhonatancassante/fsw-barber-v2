@@ -42,7 +42,7 @@ const BarbershopItem = ({ barbershop }: BarbershopItemProps) => {
                         {barbershop.address}
                     </p>
                     <Button variant="secondary" className="mt-3 w-full" asChild>
-                        <Link href={`/barbershops/${barbershop.id}`}>
+                        <Link href={`/pages/barbershops/${barbershop.id}`}>
                             Reservar
                         </Link>
                     </Button>

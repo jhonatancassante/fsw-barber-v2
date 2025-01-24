@@ -90,7 +90,7 @@ const SidebarSheet = ({ children }: SidebarSheetProps) => {
                             variant={"ghost"}
                             asChild
                         >
-                            <Link href="/">
+                            <Link href="/pages/home">
                                 <HomeIcon size={18} />
                                 Início
                             </Link>
@@ -102,7 +102,7 @@ const SidebarSheet = ({ children }: SidebarSheetProps) => {
                             variant={"ghost"}
                             asChild
                         >
-                            <Link href="/bookings">
+                            <Link href="/pages/bookings">
                                 <CalendarIcon size={18} />
                                 Agendamentos
                             </Link>
@@ -115,7 +115,7 @@ const SidebarSheet = ({ children }: SidebarSheetProps) => {
                                 variant={"ghost"}
                                 asChild
                             >
-                                <Link href={"/admin"}>
+                                <Link href={"/pages/admin"}>
                                     <FileSlidersIcon size={18} />
                                     Administração
                                 </Link>
@@ -133,7 +133,7 @@ const SidebarSheet = ({ children }: SidebarSheetProps) => {
                                 asChild
                             >
                                 <Link
-                                    href={`/barbershops?service=${option.label}`}
+                                    href={`/pages/barbershops?service=${option.label}`}
                                 >
                                     <Image
                                         src={option.icon}
