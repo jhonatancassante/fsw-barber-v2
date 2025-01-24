@@ -37,7 +37,6 @@
 
     .loader {
         border-top-style: solid;
-        border-top-color: hsl(var(--primary));
     }
 }
 
