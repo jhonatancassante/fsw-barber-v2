@@ -37,6 +37,9 @@ import { toast } from "sonner";
 import { useState } from "react";
 
 interface BookingItemProps {
+    // booking: Prisma.BookingGetPayload<{
+    //     include: { service: { include: { barbershop: true } } };
+    // }>; // Utilizado anteriormente para utilizar os models do prima como interface
     booking: {
         id: string;
         userId: string;

@@ -25,6 +25,7 @@ import { Dialog, DialogContent } from "./ui/dialog";
 import SignInDialog from "./sign-in-dialog";
 import { getTimeList } from "../_utils/get-time-list";
 import BookingSummary from "./booking-summary";
+import { useRouter } from "next/navigation";
 
 interface ServiceItemProps {
     service: {
@@ -42,6 +43,7 @@ interface ServiceItemProps {
 
 const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
     const { data } = useSession();
+    const router = useRouter();
     const [signInDialogIsOpen, setSignInDialogIsOpen] = useState(false);
     const [bookingSheetIsOpen, setBookingSheetIsOpen] = useState(false);
     const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined);
@@ -106,7 +108,12 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                 userId: data.user.id,
                 date: selectedDate,
             });
-            toast.success("Reserva criada com sucesso!");
+            toast.success("Reserva criada com sucesso!", {
+                action: {
+                    label: "Ver agendamentos",
+                    onClick: () => router.push("/bookings"),
+                },
+            });
         } catch (error) {
             console.error(error);
             toast.error(`Erro ao criar reserva!`);

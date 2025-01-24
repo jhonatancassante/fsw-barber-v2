@@ -129,4 +129,4 @@ const Home = async () => {
 export default Home;
 
 // TODO: Implementar ranking de barbearias
-// TODO: 00:34:58
+// TODO: 01:40:00
