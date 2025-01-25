@@ -9,14 +9,14 @@ import MainMenu from "./main-menu";
 const Header = () => {
     return (
         <Card className="rounded-none shadow-md">
-            <CardContent className="flex flex-row items-center justify-between p-5 lg:p-6">
+            <CardContent className="flex flex-row items-center justify-between p-5 lg:px-28 lg:py-8">
                 <Link href={"/pages/home"}>
                     <Image
                         src="/logo.png"
                         alt="logo FSW Barber"
                         width={120}
                         height={20}
-                        className="lg:h-[60px] lg:w-auto"
+                        className="lg:h-[40px] lg:w-auto"
                     />
                 </Link>
                 <div className="block lg:hidden">

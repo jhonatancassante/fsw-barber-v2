@@ -31,7 +31,7 @@ const HomePage = async () => {
     return (
         <div>
             <Header />
-            <div className="p-5">
+            <div className="p-5 lg:px-28">
                 {/* SAUDAÇÃO */}
                 <GreetingItem />
 

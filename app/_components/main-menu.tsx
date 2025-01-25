@@ -25,11 +25,13 @@ import {
     DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { useState } from "react";
+import { Separator } from "./ui/separator";
+import MenuButton from "./menu-button";
 
 const MainMenu = () => {
     const { data } = useSession();
     const DROPDOWN_MENU_STYLE =
-        "flex flex-row items-center gap-2 text-lg cursor-pointer p-3";
+        "flex flex-row items-center gap-3 text-base cursor-pointer py-3 px-6";
     const [isServiceMenuOpen, setIsServiceMenuOpen] = useState(false);
     const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
 
@@ -45,30 +47,21 @@ const MainMenu = () => {
 
     return (
         <div className="flex items-center">
-            <Button
-                variant={"ghost"}
-                className="h-[60px] rounded-none px-5 py-6 text-lg uppercase"
-                asChild
-            >
-                <Link href="/pages/home">Início</Link>
-            </Button>
+            <MenuButton href="/pages/home">Início</MenuButton>
 
             <DropdownMenu
                 open={isServiceMenuOpen}
                 onOpenChange={handleServiceMenuClick}
             >
-                <DropdownMenuTrigger asChild>
-                    <Button
-                        variant={"ghost"}
-                        className="h-[60px] rounded-none px-5 py-6 text-lg uppercase"
-                    >
+                <MenuButton>
+                    <DropdownMenuTrigger>
                         Serviços
                         <ChevronDown
                             className={`relative top-[1px] ml-1 h-3 w-3 transition duration-300 ${isServiceMenuOpen ? "rotate-180" : ""}`}
                             aria-hidden="true"
                         />
-                    </Button>
-                </DropdownMenuTrigger>
+                    </DropdownMenuTrigger>
+                </MenuButton>
                 <DropdownMenuContent onMouseLeave={handleServiceMenuClick}>
                     {quickSearchOptions.map((option) => (
                         <Link
@@ -80,8 +73,8 @@ const MainMenu = () => {
                             <DropdownMenuItem className={DROPDOWN_MENU_STYLE}>
                                 <Image
                                     src={option.icon}
-                                    height={24}
-                                    width={24}
+                                    height={18}
+                                    width={18}
                                     alt={`icone de ${option.label}`}
                                 />
                                 {option.label}
@@ -92,22 +85,18 @@ const MainMenu = () => {
             </DropdownMenu>
 
             {data?.user.role === adminRole && (
-                <Button
-                    variant={"ghost"}
-                    className="h-[60px] rounded-none px-5 py-6 text-lg uppercase"
-                    asChild
-                >
-                    <Link href="/pages/admin">Administração</Link>
-                </Button>
+                <MenuButton href="/pages/admin">Administração</MenuButton>
             )}
+
+            <Separator orientation="vertical" className="w-5" />
 
             {data?.user ? (
                 <DropdownMenu
                     open={isProfileMenuOpen}
                     onOpenChange={handleProfileMenuClick}
                 >
-                    <DropdownMenuTrigger>
-                        <Avatar className="ml-6 h-[60px] w-[60px]">
+                    <DropdownMenuTrigger asChild>
+                        <Avatar className="h-[40px] w-[40px] cursor-pointer">
                             <AvatarImage
                                 src={
                                     data?.user?.image ??
@@ -123,7 +112,7 @@ const MainMenu = () => {
                         className="relative right-10"
                         onMouseLeave={handleProfileMenuClick}
                     >
-                        <DropdownMenuLabel className="text-xl font-bold">
+                        <DropdownMenuLabel className="flex items-center justify-center px-6 text-lg font-bold">
                             {data.user.name}
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
