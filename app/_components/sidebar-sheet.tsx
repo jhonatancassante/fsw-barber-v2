@@ -7,6 +7,7 @@ import {
     HomeIcon,
     LogInIcon,
     LogOutIcon,
+    UserIcon,
 } from "lucide-react";
 import {
     Sheet,
@@ -93,6 +94,18 @@ const SidebarSheet = ({ children }: SidebarSheetProps) => {
                             <Link href="/pages/home">
                                 <HomeIcon size={18} />
                                 Início
+                            </Link>
+                        </Button>
+                    </SheetClose>
+                    <SheetClose asChild>
+                        <Button
+                            className="justify-start gap-2"
+                            variant={"ghost"}
+                            asChild
+                        >
+                            <Link href="/pages/profile">
+                                <UserIcon size={18} />
+                                Perfil
                             </Link>
                         </Button>
                     </SheetClose>
