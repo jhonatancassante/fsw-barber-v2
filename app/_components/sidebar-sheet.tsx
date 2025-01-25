@@ -38,7 +38,7 @@ const SidebarSheet = ({ children }: SidebarSheetProps) => {
     return (
         <Sheet>
             <SheetTrigger asChild>{children}</SheetTrigger>
-            <SheetContent className="overflow-y-auto">
+            <SheetContent className="overflow-y-auto md:w-80">
                 <SheetHeader>
                     <SheetTitle className="text-left">Menu</SheetTitle>
                     <SheetDescription className="text-left">
