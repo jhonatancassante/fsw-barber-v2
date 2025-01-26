@@ -17,5 +17,5 @@ export const deleteBooking = async (bookingId: string) => {
         },
     });
 
-    revalidatePath("/pages/bookings");
+    revalidatePath("/pages/bookings", "page");
 };

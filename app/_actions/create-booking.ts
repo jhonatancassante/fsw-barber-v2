@@ -23,6 +23,6 @@ export const createBooking = async (params: CreateBookingParams) => {
         data: params,
     });
 
-    revalidatePath("/pages/barbershops/[id]");
-    revalidatePath("/pages/bookings");
+    revalidatePath("/pages/barbershops/[id]", "page");
+    revalidatePath("/pages/bookings", "page");
 };
