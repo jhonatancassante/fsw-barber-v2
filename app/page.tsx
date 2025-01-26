@@ -15,6 +15,3 @@ const Home = () => {
 };
 
 export default Home;
-
-// TODO: Implementar ranking de barbearias
-// TODO: 01:17:00
