@@ -164,8 +164,8 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                                     >
                                         Reservar
                                     </Button>
-                                    <SheetContent className="px-0">
-                                        <SheetHeader className="border-b border-solid pb-5">
+                                    <SheetContent className="px-0 lg:w-96">
+                                        <SheetHeader className="fçex-col flex items-center justify-center border-b border-solid pb-5">
                                             <SheetTitle>
                                                 Fazer reserva
                                             </SheetTitle>
@@ -174,7 +174,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                                             </SheetDescription>
                                         </SheetHeader>
 
-                                        <div className="border-b border-solid py-5">
+                                        <div className="flex border-b border-solid py-5 lg:py-3">
                                             <Calendar
                                                 mode="single"
                                                 locale={ptBR}
@@ -210,7 +210,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                                         </div>
 
                                         {selectedDay && (
-                                            <div className="flex gap-3 overflow-x-auto border-b border-solid p-5 [&::-webkit-scrollbar]:hidden">
+                                            <div className="flex gap-3 overflow-x-auto border-b border-solid p-5 [&::-webkit-scrollbar]:hidden lg:[&::-webkit-scrollbar]:block">
                                                 {timeList.length > 0 ? (
                                                     timeList.map((time) => (
                                                         <Button
@@ -263,6 +263,7 @@ const ServiceItem = ({ service, barbershop }: ServiceItemProps) => {
                                                         handleCreateBooking
                                                     }
                                                     disabled={!selectedDate}
+                                                    className="w-full"
                                                 >
                                                     Confirmar
                                                 </Button>

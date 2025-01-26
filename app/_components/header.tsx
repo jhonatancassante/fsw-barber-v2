@@ -9,7 +9,7 @@ import MainMenu from "./main-menu";
 const Header = () => {
     return (
         <Card className="rounded-none shadow-md">
-            <CardContent className="flex flex-row items-center justify-between p-5 lg:px-28 lg:py-8">
+            <CardContent className="flex flex-row items-center justify-between p-5 lg:px-28">
                 <Link href={"/pages/home"}>
                     <Image
                         src="/logo.png"
