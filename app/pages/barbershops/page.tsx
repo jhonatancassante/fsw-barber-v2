@@ -22,10 +22,10 @@ const BarbershopsPage = async ({ searchParams }: BarbershopsPageProps) => {
     return (
         <div>
             <Header />
-            <div className="p-5">
+            <div className="p-5 lg:px-28">
                 <Search />
                 <FormatedTitle title={`Resultados para "${name ?? service}"`} />
-                <div className="mb-6 grid grid-cols-2 gap-4">
+                <div className="mb-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
                     {barbershops.map((barbershop) => (
                         <BarbershopItem
                             key={barbershop.id}

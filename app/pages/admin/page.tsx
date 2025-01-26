@@ -26,9 +26,10 @@ const AdminPage = () => {
     return (
         <div>
             <Header />
-            <h1>Página de Administração</h1>
-            <p>Bem-vindo, administrador!</p>
-            {/* Adicione aqui o conteúdo da página de administração */}
+            <div className="p-5 lg:px-28">
+                <h1>Página de Administração</h1>
+                <p>Bem-vindo, administrador!</p>
+            </div>
         </div>
     );
 };
