@@ -121,13 +121,24 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
             <div className="border-b border-solid p-5">
                 <FormatedTitle title="Serviços" className="mt-0" />
                 <div className="grid grid-cols-1 gap-2">
-                    {barbershop.services.map((service) => (
-                        <ServiceItem
-                            key={service.id}
-                            barbershop={barbershop}
-                            service={service}
-                        />
-                    ))}
+                    {barbershop.services.map(
+                        (service: {
+                            name: string;
+                            id: string;
+                            description: string;
+                            imageUrl: string;
+                            price: number;
+                            barbershopId: string;
+                            createdAt: Date;
+                            updatedAt: Date;
+                        }) => (
+                            <ServiceItem
+                                key={service.id}
+                                barbershop={barbershop}
+                                service={service}
+                            />
+                        ),
+                    )}
                 </div>
             </div>
 

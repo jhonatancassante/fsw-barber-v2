@@ -23,6 +23,7 @@ export const getPopularBarbershops = async () => {
         );
         return {
             ...barbershop,
+            averageRating: Number(barbershop.averageRating),
             bookingCount,
         };
     });

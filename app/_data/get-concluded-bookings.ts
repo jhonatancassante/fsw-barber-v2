@@ -34,6 +34,10 @@ export const getConcludedBookings = async () => {
         service: {
             ...booking.service,
             price: Number(booking.service.price),
+            barbershop: {
+                ...booking.service.barbershop,
+                averageRating: Number(booking.service.barbershop.averageRating),
+            },
         },
     }));
 };

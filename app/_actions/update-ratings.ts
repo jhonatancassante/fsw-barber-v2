@@ -4,8 +4,9 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../_lib/auth";
 import { db } from "../_lib/prisma";
 import { revalidatePath } from "next/cache";
+import { updateBarbershopRate } from "./update-barbershop-rate";
 
-export const updateRating = async (
+export const updateRatings = async (
     barbershopId: string,
     rate: number,
 ): Promise<void> => {
@@ -39,5 +40,7 @@ export const updateRating = async (
         });
     }
 
-    revalidatePath("/pages/barbershops/[id]");
+    await updateBarbershopRate(barbershopId);
+
+    revalidatePath("/pages/barbershops/[id]", "page");
 };

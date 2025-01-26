@@ -7,7 +7,7 @@ import {
     DialogHeader,
     DialogTitle,
 } from "./ui/dialog";
-import { updateRating } from "../_actions/update-rating";
+import { updateRatings } from "../_actions/update-ratings";
 import { toast } from "sonner";
 
 interface RateDialogProps {
@@ -19,7 +19,7 @@ const RateDialog = ({ barbershopId, rating }: RateDialogProps) => {
     const handleRateClick = async (event: React.MouseEvent<SVGElement>) => {
         const starId = Number((event.target as HTMLElement)?.id);
         try {
-            await updateRating(barbershopId, starId + 1);
+            await updateRatings(barbershopId, starId + 1);
             toast.success("Avaliação registrada com sucesso!");
         } catch (error) {
             console.log(error);

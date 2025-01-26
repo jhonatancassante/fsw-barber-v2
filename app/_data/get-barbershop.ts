@@ -7,16 +7,11 @@ export const getBarbershop = async (id: string) => {
         where: { id: id },
         include: {
             services: true,
-            rating: true,
+            ratings: true,
         },
     });
 
     if (!barbershop) return;
-
-    const ratings = barbershop.rating || [];
-    const totalRatings = ratings.reduce((acc, curr) => acc + curr.rating, 0);
-    const averageRating =
-        ratings.length > 0 ? (totalRatings / ratings.length).toFixed(1) : 0;
 
     return {
         ...barbershop,
@@ -24,7 +19,6 @@ export const getBarbershop = async (id: string) => {
             ...service,
             price: Number(service.price),
         })),
-        averageRating,
-        amountRatings: ratings.length,
+        averageRating: Number(barbershop.averageRating),
     };
 };
