@@ -9,6 +9,7 @@ import {
 } from "./ui/dialog";
 import { updateRatings } from "../_actions/update-ratings";
 import { toast } from "sonner";
+import { revalidatePath } from "next/cache";
 
 interface RateDialogProps {
     barbershopId: string;
@@ -16,15 +17,15 @@ interface RateDialogProps {
 }
 
 const RateDialog = ({ barbershopId, rating }: RateDialogProps) => {
-    const handleRateClick = async (event: React.MouseEvent<SVGElement>) => {
-        const starId = Number((event.target as HTMLElement)?.id);
+    const handleRateClick = async (stars: number) => {
         try {
-            await updateRatings(barbershopId, starId + 1);
+            await updateRatings(barbershopId, stars);
             toast.success("Avaliação registrada com sucesso!");
         } catch (error) {
             console.log(error);
             toast.error("Não foi possível registrar a avalição!");
         }
+        revalidatePath("/pages/barbershops/[id]", "layout");
     };
 
     return (
@@ -43,7 +44,7 @@ const RateDialog = ({ barbershopId, rating }: RateDialogProps) => {
                             className={`cursor-pointer ${rating >= i + 1 ? "fill-primary text-primary" : ""}`}
                             size={30}
                             id={i.toString()}
-                            onClick={handleRateClick}
+                            onClick={() => handleRateClick(i + 1)}
                         />
                     </DialogClose>
                 ))}
