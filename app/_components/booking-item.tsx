@@ -1,6 +1,5 @@
 "use client";
 
-import { Barbershop } from "@prisma/client";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { Badge } from "./ui/badge";
 import { Card, CardContent } from "./ui/card";
@@ -51,7 +50,18 @@ interface BookingItemProps {
             imageUrl: string;
             price: number;
             barbershopId: string;
-            barbershop: Barbershop;
+            barbershop: {
+                id: string;
+                name: string;
+                address: string;
+                phones: string[];
+                description: string;
+                imageUrl: string;
+                averageRating: number;
+                amountRatings: number;
+                createdAt: Date;
+                updatedAt: Date;
+            };
             createdAt: Date;
             updatedAt: Date;
         };

@@ -1,4 +1,3 @@
-import { Barbershop } from "@prisma/client";
 import { Card, CardContent } from "./ui/card";
 import Image from "next/image";
 import { Button } from "./ui/button";
@@ -13,7 +12,18 @@ import {
 } from "./ui/tooltip";
 
 interface BarbershopItemProps {
-    barbershop: Barbershop;
+    barbershop: {
+        id: string;
+        name: string;
+        address: string;
+        phones: string[];
+        description: string;
+        imageUrl: string;
+        averageRating: number;
+        amountRatings: number;
+        createdAt: Date;
+        updatedAt: Date;
+    };
 }
 
 const BarbershopItem = ({ barbershop }: BarbershopItemProps) => {
@@ -41,7 +51,11 @@ const BarbershopItem = ({ barbershop }: BarbershopItemProps) => {
                                             size={12}
                                             className="fill-primary text-primary"
                                         />
-                                        <p className="text-xs">5,0</p>
+                                        <p className="text-xs">
+                                            {Number(
+                                                barbershop.averageRating,
+                                            ).toFixed(1)}
+                                        </p>
                                     </Badge>
                                 </div>
                             </Link>

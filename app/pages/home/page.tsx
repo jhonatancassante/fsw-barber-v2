@@ -1,7 +1,6 @@
 import Header from "../../_components/header";
 import { Button } from "../../_components/ui/button";
 import Image from "next/image";
-import { db } from "../../_lib/prisma";
 import BarbershopItem from "../../_components/barbershop-item";
 import { quickSearchOptions } from "../../_constants/quick-search";
 import BookingItem from "../../_components/booking-item";
@@ -19,9 +18,10 @@ import {
 import { getConfirmedBookings } from "../../_data/get-confirmed-bookings";
 import Banner from "@/app/_components/banner";
 import { getPopularBarbershops } from "@/app/_data/get-popular-barbershops";
+import { getAllBarbershops } from "@/app/_data/get-all-barbershops";
 
 const HomePage = async () => {
-    const barbershop = await db.barbershop.findMany({});
+    const barbershop = await getAllBarbershops();
     const popularBarbershop = await getPopularBarbershops();
 
     const bookings = await getConfirmedBookings();
