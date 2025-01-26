@@ -8,17 +8,36 @@ import { ChevronLeftIcon, MapPinIcon, MenuIcon, StarIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { getConcludedBookings } from "@/app/_data/get-concluded-bookings";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/_lib/auth";
+import {
+    Dialog,
+    DialogContent,
+    DialogTrigger,
+} from "@/app/_components/ui/dialog";
+import RateDialog from "@/app/_components/rate-dialog";
 
 interface BarbershopPageProps {
     params: Promise<{ id: string }>;
 }
 
 const BarbershopPage = async ({ params }: BarbershopPageProps) => {
+    const session = await getServerSession(authOptions);
     const { id } = await params;
 
     const barbershop = await getBarbershop(id);
+    const concludedBookings = await getConcludedBookings();
 
     if (!barbershop) return notFound();
+
+    const hasBooking =
+        session &&
+        concludedBookings.some(
+            (booking) =>
+                booking.service.barbershop.id === id &&
+                booking.userId === session?.user.id,
+        );
 
     return (
         <div>
@@ -57,6 +76,7 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
             {/* NOME E ENDEREÇO */}
             <div className="flex flex-col gap-2 border-b border-solid p-5">
                 <h1 className="mb-1 text-xl font-bold">{barbershop.name}</h1>
+
                 <div className="flex items-center gap-2">
                     <MapPinIcon className="text-primary" size={18} />
                     <p className="text-sm">{barbershop.address}</p>
@@ -64,7 +84,30 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
 
                 <div className="flex items-center gap-2">
                     <StarIcon className="fill-primary text-primary" size={18} />
-                    <p className="text-sm">5,0 (889 avaliações)</p>
+                    <p className="text-sm">
+                        {`${Number(barbershop.averageRating).toFixed(1)}
+                            (${barbershop.amountRatings}
+                            avaliaç${barbershop.amountRatings === 1 ? "ão" : "ões"})`}
+                    </p>
+                    {hasBooking ? (
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <Button
+                                    variant={"ghost"}
+                                    size={"sm"}
+                                    className="px-2 py-1 text-xs"
+                                >
+                                    Avaliar
+                                </Button>
+                            </DialogTrigger>
+                            <DialogContent className="w-[90%] rounded-lg">
+                                <RateDialog
+                                    barbershopId={barbershop.id}
+                                    rating={Number(barbershop.averageRating)}
+                                />
+                            </DialogContent>
+                        </Dialog>
+                    ) : null}
                 </div>
             </div>
 
