@@ -18,10 +18,10 @@ import {
 import { getConfirmedBookings } from "../../_data/get-confirmed-bookings";
 import Banner from "@/app/_components/banner";
 import { getPopularBarbershops } from "@/app/_data/get-popular-barbershops";
-import { getAllBarbershops } from "@/app/_data/get-all-barbershops";
+import { getRecommendedBarbershops } from "@/app/_data/get-recommended-barbershops";
 
 const HomePage = async () => {
-    const barbershop = await getAllBarbershops();
+    const barbershop = await getRecommendedBarbershops();
     const popularBarbershop = await getPopularBarbershops();
 
     const bookings = await getConfirmedBookings();
