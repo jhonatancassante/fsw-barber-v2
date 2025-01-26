@@ -3,7 +3,7 @@ import BarbershopItem from "../../_components/barbershop-item";
 import FormatedTitle from "../../_components/formated-title";
 import Header from "../../_components/header";
 import Search from "../../_components/search";
-import { db } from "../../_lib/prisma";
+import { getBarbershopsSearch } from "@/app/_data/get-barbershops-search";
 
 interface BarbershopsPageProps {
     searchParams: Promise<{
@@ -17,32 +17,7 @@ const BarbershopsPage = async ({ searchParams }: BarbershopsPageProps) => {
 
     if (!name && !service) return notFound();
 
-    const barbershops = await db.barbershop.findMany({
-        where: {
-            OR: [
-                name
-                    ? {
-                          name: {
-                              contains: name,
-                              mode: "insensitive",
-                          },
-                      }
-                    : {},
-                service
-                    ? {
-                          services: {
-                              some: {
-                                  name: {
-                                      contains: service,
-                                      mode: "insensitive",
-                                  },
-                              },
-                          },
-                      }
-                    : {},
-            ],
-        },
-    });
+    const barbershops = await getBarbershopsSearch(name, service);
 
     return (
         <div>
