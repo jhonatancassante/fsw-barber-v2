@@ -9,32 +9,30 @@ export const getConfirmedBookings = async () => {
 
     if (!session) return [];
 
-    const user = session.user;
-
     const bookings = await db.booking.findMany({
         where: {
-            userId: user.id,
+            userId: session.user.id,
             date: {
                 gte: new Date(),
             },
         },
         include: {
-            service: { include: { barbershop: true } },
+            service: {
+                include: {
+                    barbershop: true,
+                },
+            },
         },
         orderBy: {
             date: "asc",
         },
     });
 
-    if (bookings.length === 0) return [];
-
-    return bookings.map((booking) => {
-        return {
-            ...booking,
-            service: {
-                ...booking.service,
-                price: Number(booking.service.price),
-            },
-        };
-    });
+    return bookings.map((booking) => ({
+        ...booking,
+        service: {
+            ...booking.service,
+            price: Number(booking.service.price),
+        },
+    }));
 };
