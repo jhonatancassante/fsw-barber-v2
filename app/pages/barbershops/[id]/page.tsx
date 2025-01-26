@@ -39,6 +39,10 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
                 booking.userId === session?.user.id,
         );
 
+    const userRating = barbershop?.ratings?.find(
+        (rating) => rating.userId === session?.user.id,
+    );
+
     return (
         <div>
             {/* IMAGEM */}
@@ -93,17 +97,17 @@ const BarbershopPage = async ({ params }: BarbershopPageProps) => {
                         <Dialog>
                             <DialogTrigger asChild>
                                 <Button
-                                    variant={"ghost"}
+                                    variant={"outline"}
                                     size={"sm"}
                                     className="px-2 py-1 text-xs"
                                 >
-                                    Avaliar
+                                    {userRating ? "Avaliado" : "Avaliar"}
                                 </Button>
                             </DialogTrigger>
                             <DialogContent className="w-[90%] rounded-lg">
                                 <RateDialog
                                     barbershopId={barbershop.id}
-                                    rating={Number(barbershop.averageRating)}
+                                    rating={Number(userRating?.rating)}
                                 />
                             </DialogContent>
                         </Dialog>
