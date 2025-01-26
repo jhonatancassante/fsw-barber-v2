@@ -76,7 +76,7 @@ const SidebarSheet = ({ children }: SidebarSheetProps) => {
                                         <LogInIcon />
                                     </Button>
                                 </DialogTrigger>
-                                <DialogContent className="w=[90%] rounded-lg">
+                                <DialogContent className="w-[90%] rounded-lg">
                                     <SignInDialog />
                                 </DialogContent>
                             </Dialog>
